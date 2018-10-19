@@ -1,0 +1,35 @@
+##################################################################################################
+# Hello service
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: gohelloworld
+  labels:
+    app: gohelloworld
+spec:
+  ports:
+  - port: 8080
+    name: http
+  selector:
+    app: details
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gohelloworld-v1
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: gohelloworld
+        version: v1
+    spec:
+      containers:
+      - name: gohelloworld
+        image: sal2apao/gohelloworld:2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+---
